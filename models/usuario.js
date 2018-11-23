@@ -5,13 +5,20 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var UsuarioSchema = Schema({
-    nombres: String,
-    apellidos: String,
-    alias: String,
+    _id: mongoose.Schema.Types.ObjectId,
+    persona: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Persona'
+    },
     correo: String,
     contrasena: String,
-    rol: String,
-    imagen: String
+    observacion: String,
+    rol: {
+        type: String,
+        default: 'UsuarioJugador'
+    },
+    imagen: String,
+    estado: Boolean
 })
 
 module.exports = mongoose.model('Usuario',UsuarioSchema);
