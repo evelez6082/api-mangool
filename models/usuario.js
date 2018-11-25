@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var UsuarioSchema = Schema({
-    _id: mongoose.Schema.Types.ObjectId,
     persona: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Persona'
@@ -18,7 +17,7 @@ var UsuarioSchema = Schema({
         default: 'UsuarioJugador'
     },
     imagen: String,
-    estado: Boolean
+    estado: {type: Boolean, default: true}
 })
 
 module.exports = mongoose.model('Usuario',UsuarioSchema);

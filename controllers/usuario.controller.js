@@ -1,6 +1,7 @@
 'use strict'
 var bcrypt = require('bcrypt-nodejs');
 var Usuario = require('../models/usuario');
+var Persona = require('../models/persona');
 var jwt = require('../services/jwt');
 var mongoosePaginate = require('mongoose-pagination');
 var fs = require('fs');
@@ -15,21 +16,22 @@ function home(req, res){
 //registro
 function saveUser(req,res){
     var usuario = new Usuario();
+    var persona = new Persona();
     var params = req.body;
 
-    if(params.nombres && params.apellidos && params.alias 
+    if(params.nombres && params.apellidos && params.fechaNacimiento && params.sexo 
         && params.correo && params.contrasena){
-            usuario.nombres = params.nombres;
-            usuario.apellidos = params.apellidos;
-            usuario.alias = params.alias;
+            persona.nombre.nombres = params.nombres;
+            persona.nombre.apellidos = params.apellidos;
+            persona.fechaNacimiento = params.fechaNacimiento;
+            persona.sexo = params.sexo;
             usuario.correo = params.correo;
-            usuario.rol = 'ROLE_USER';
+            usuario.rol = 'UsuarioJugador';
             usuario.imagen = null;
 
             //comprobar y controlar usuarios duplicados
             Usuario.find({ $or: [
-                                    {correo: usuario.correo.toLowerCase()},
-                                    {alias: usuario.alias.toLowerCase()}
+                                    {correo: usuario.correo.toLowerCase()}
                                 ]
                         }).exec((err,usuarios)=>{
                             if(err) return res.status(500).send({message: 'Error en la petición de usuarios'})
@@ -38,13 +40,23 @@ function saveUser(req,res){
                             }else{
                                 //Cifrar y guardar los datos
                                 bcrypt.hash(params.contrasena,null,null,(err,hash)=>{
+
                                     usuario.contrasena = hash;
-                                    usuario.save((err,userStored)=>{
-                                        if(err) return res.status(500).send({message: 'Error al guardar el usuario'});
-                                        if(userStored){
-                                            res.status(200).send({usuario: userStored})
+                                    persona.save((err,personaGuardada)=>{
+                                        if(err) return res.status(500).send({error: err,message: 'Error al guardar usuario (persona)'});
+                                        if(personaGuardada){
+                                            usuario.persona = personaGuardada._id;
+                                            //res.status(200).send({persona: personaGuardada})
+                                            usuario.save((err,userStored)=>{
+                                                if(err) return res.status(500).send({error: err,message: 'Error al guardar el usuario'});
+                                                if(userStored){
+                                                    res.status(200).send({usuario: userStored})
+                                                }else{
+                                                    res.status(404).send({message: 'No se ha registrado el usuario'});
+                                                }
+                                            })
                                         }else{
-                                            res.status(404).send({message: 'No se ha registrado el usuario'});
+                                            res.status(404).send({message: 'No se ha registrado el usuario (persona)'});
                                         }
                                     })
                                 })

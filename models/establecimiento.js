@@ -6,10 +6,10 @@ var Schema = mongoose.Schema;
 
 var EstablecimientoSchema = new Schema({
     razonComercial: String,
-    propietario: {},
-    gerente: {},
-    pais: {},
-    Provincia: {},
+    propietario: {type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'},
+    gerente: {type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'},
+    pais: {type: mongoose.Schema.Types.ObjectId, ref: 'Pais'},
+    Provincia: {type: mongoose.Schema.Types.ObjectId, ref: 'Manabi'},
     direccion: {
         ciudad: String,
         callePrincipal: String,
@@ -31,3 +31,4 @@ var EstablecimientoSchema = new Schema({
 });
 
 module.exports = mongoose.Model('Establecimiento', EstablecimientoSchema);
+
