@@ -5,11 +5,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var EstablecimientoSchema = new Schema({
-    razonComercial: String,
+    razonSocial: String,
     propietario: {type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'},
     gerente: {type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'},
     pais: {type: mongoose.Schema.Types.ObjectId, ref: 'Pais'},
-    Provincia: {type: mongoose.Schema.Types.ObjectId, ref: 'Manabi'},
+    Provincia: {type: mongoose.Schema.Types.ObjectId, ref: 'Provincia'},
     direccion: {
         ciudad: String,
         callePrincipal: String,
@@ -17,18 +17,16 @@ var EstablecimientoSchema = new Schema({
     },
     logo: String,
     sitioWeb: String,
-    redesSociales: [
+    redesSociales: 
         {
             facebook: String,
             instagram: String,
             twitter: String,
             youtube: String,
             snapchat: String
-        }
-    ],
-    creado:{type: Date,default: Date.now},
-    horariosAtencion: []
-});
+        },
+    creado:{type: Date,default: Date.now}
+})
 
-module.exports = mongoose.Model('Establecimiento', EstablecimientoSchema);
+module.exports = mongoose.model('Establecimiento',EstablecimientoSchema);
 
