@@ -9,6 +9,7 @@ const app = express();
 //cargar rutas
 const user_routes = require('./routes/usuario.routes');
 const establecimiento_routes = require('./routes/establecimiento.routes');
+const cancha_routes = require('./routes/cancha.routes');
 
 const {mongoose} = require('./database');
 // configuracion servidor
@@ -25,6 +26,7 @@ app.use(cors({origin: 'http://localhost:4200'}));
 //app.use('/api/empleados',require('./routers/empleados.routers'));
 app.use('/api',user_routes);
 app.use('/api',establecimiento_routes);
+app.use('/api',cancha_routes);
 
 //empezando el servidor
 app.listen(app.get('port'), ()=>{

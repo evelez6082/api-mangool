@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const emplectrl = require('../controllers/empleados.controller');
+const emplectrl = require('../controllers/empleados');
 
 router.get('/', emplectrl.ObtenerEmpleados);
 router.post('/', emplectrl.AgregarEmpleados);

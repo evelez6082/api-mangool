@@ -12,6 +12,7 @@ var EstablecimientoSchema = new Schema({
     Provincia: {type: mongoose.Schema.Types.ObjectId, ref: 'Provincia'},
     direccion: {
         ciudad: String,
+        sector: String,
         callePrincipal: String,
         calleSecundaria: String
     },
