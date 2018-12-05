@@ -1,6 +1,7 @@
 'use strict'
 var bcrypt = require('bcrypt-nodejs');
 var Establecimiento = require('../models/establecimiento');
+var Usuario = require('../models/usuario');
 var Pais = require('../models/pais');
 var jwt = require('../services/jwt');
 var mongoosePaginate = require('mongoose-pagination');
@@ -9,13 +10,11 @@ var path = require('path');
 
 //Registrar establecimiento
 function registrarEstablecimiento(req,res){
-    var idusuario = req.user.sub;
     var establecimiento = new Establecimiento();
     var params = req.body;
-    if(params.razonSocial && idusuario){
+    if(params.razonSocial && params.correo && params.contrasena){
         establecimiento.razonSocial = params.razonSocial;
-        establecimiento.propietario = idusuario;
-        establecimiento.gerente = idusuario;
+        establecimiento.representante = null;
         establecimiento.pais = params.pais;
         establecimiento.provincia = params.provincia;
         establecimiento.direccion.ciudad = params.ciudad;
@@ -29,22 +28,49 @@ function registrarEstablecimiento(req,res){
         establecimiento.redesSociales.twitter = params.twitter;
         establecimiento.redesSociales.youtube = params.youtube;
         establecimiento.redesSociales.snapchat = params.snapchat;
-
-        Establecimiento.find({razonSocial: params.razonSocial, propietario: req.user.sub}).exec((err,ests)=>{
+        establecimiento.atencion.inicio = params.inicio;
+        establecimiento.atencion.cierre = params.cierre;
+        Usuario.find({correo: params.correo}).exec((err,usuario)=>{
             if(err) return res.status(500).send({message: 'Error en la petición de usuario',error:err});
-            if(ests && ests.length >= 1){
-                return res.status(200).send({message: '¡El establecimiento que intentas registrar, ya existe en tu lista de negocios!'});
+            if(usuario && usuario.length >= 1){
+                return res.status(200).send({message: 'El correo ingresado ya existe registrado en el sistema.'});
             }else{
-                establecimiento.save((err,estsGuardado)=>{
-                    if (err) return res.status(500).send({message: 'Error al guardar del establecimiento.'}); 
-                    if (estsGuardado) {
-                        res.status(200).send({user: estsGuardado});
+                Establecimiento.find({razonSocial: params.razonSocial}).exec((err,ests)=>{
+                    if(err) return res.status(500).send({message: 'Error en la petición de establecimiento',error:err});
+                    if(ests && ests.length >= 1){
+                        return res.status(200).send({message: 'La razón social ingresada ya existe. Por favor ingrese otra.'});
                     }else{
-                        res.status(404).send({message: 'No se ha registrado el establecimiento.'});
+                        usuario = new Usuario();
+                        usuario.correo = params.correo;
+                        usuario.rol = 'UsuarioCancha';
+                        usuario.imagen = null;
+                        //Cifrar y guardar los datos
+                        bcrypt.hash(params.contrasena,null,null,(err,hash)=>{
+                            usuario.contrasena = hash;
+                            usuario.save((err,userStored)=>{
+                                if(err) return res.status(500).send({error: err,message: 'Error al guardar el usuario'});
+                                if(userStored){
+                                    establecimiento.usuario = userStored._id;
+                                    establecimiento.save((err,estsGuardado)=>{
+                                        if (err) return res.status(500).send({message: 'Error al guardar establecimiento.'}); 
+                                        if (estsGuardado) {
+                                            res.status(200).send({establecimiento: estsGuardado});
+                                        }else{
+                                            res.status(404).send({message: 'No se ha registrado el establecimiento.'});
+                                        }
+                                    })
+                                }else{
+                                    res.status(404).send({message: 'No se ha registrado el usuario'});
+                                }
+                            })
+                        })
+
                     }
-                })
+                });
             }
-        });
+        })
+
+
 
     }else{
         res.status(200).send({
