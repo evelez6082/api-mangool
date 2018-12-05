@@ -6,8 +6,7 @@ var Schema = mongoose.Schema;
 
 var EstablecimientoSchema = new Schema({
     razonSocial: String,
-    propietario: {type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'},
-    gerente: {type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'},
+    representante: {type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'},
     pais: {type: mongoose.Schema.Types.ObjectId, ref: 'Pais'},
     Provincia: {type: mongoose.Schema.Types.ObjectId, ref: 'Provincia'},
     direccion: {
@@ -26,6 +25,7 @@ var EstablecimientoSchema = new Schema({
             youtube: String,
             snapchat: String
         },
+    atencion: {inicio:String,cierre:String},
     creado:{type: Date,default: Date.now}
 })
 
