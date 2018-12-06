@@ -53,7 +53,7 @@ function registrarEstablecimiento(req,res){
                                 if(userStored){
                                     establecimiento.usuario = userStored._id;
                                     establecimiento.save((err,estsGuardado)=>{
-                                        if (err) return res.status(500).send({message: 'Error al guardar establecimiento.'}); 
+                                        if (err) return res.status(500).send({error: err,message: 'Error al guardar establecimiento.'}); 
                                         if (estsGuardado) {
                                             res.status(200).send({establecimiento: estsGuardado});
                                         }else{
