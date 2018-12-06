@@ -6,8 +6,8 @@ function guardarCancha(req,res){
     var cancha = new Cancha();
     var params = req.body;
 
-    if(params.nombre && params.largo && params.ancho && params.cesped && params.numeroJugadores && params.estado && params.establecimiento){
-        cancha.nombre = params.nombre;
+    if(params.nombre && params.largo && params.ancho && params.cesped && params.numeroJugadores && params.establecimiento){
+        cancha.nombre = params.nombre.toUpperCase();
         cancha.dimensiones.largo = params.largo;
         cancha.dimensiones.ancho = params.ancho;
         cancha.cesped = params.cesped;
@@ -18,8 +18,8 @@ function guardarCancha(req,res){
         cancha.tarifaDefault.diaSemana.noche = params.nocheDiaSemana;
         cancha.tarifaDefault.finSemana.dia = params.diaFinSemana;
         cancha.tarifaDefault.finSemana.noche = params.nocheFinSemana;
-        Cancha.find({nombre: cancha.nombre.toLowerCase(),establecimiento: cancha.establecimiento}).exec((err,canchas)=>{
-            if(err) return res.status(500).send({message: 'Error en la petición de usuario.'})
+        Cancha.find({nombre: cancha.nombre.toUpperCase(),establecimiento: cancha.establecimiento}).exec((err,canchas)=>{
+            if(err) return res.status(500).send({message: 'Error en la petición de cancha.'})
             if(canchas && canchas.length >= 1 ){
                 return res.status(200).send({message: 'La cancha que intenta registrar ya existe.'})
             }else{

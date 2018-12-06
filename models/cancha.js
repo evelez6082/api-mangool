@@ -9,7 +9,7 @@ var CanchaSchema = new Schema({
     dimensiones: {largo: Number, ancho: Number},
     cesped: String,
     numeroJugadores: Number,
-    estado: Boolean,
+    estado: {type: Boolean, default: false},
     creado:{type: Date,default: Date.now},
     establecimiento: {type: mongoose.Schema.Types.ObjectId, ref: 'Establecimiento'},
     tarifaDefault: {
