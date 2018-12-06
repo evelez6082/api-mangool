@@ -15,7 +15,7 @@ function registrarEstablecimiento(req,res){
     var params = req.body;
     if(params.razonSocial && params.correo && params.contrasena){
         establecimiento.razonSocial = params.razonSocial;
-        establecimiento.representante = null;
+        establecimiento.representante = params.representante;
         establecimiento.pais = params.pais;
         establecimiento.provincia = params.provincia;
         establecimiento.direccion.ciudad = params.ciudad;
