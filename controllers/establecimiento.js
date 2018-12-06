@@ -3,6 +3,7 @@ var bcrypt = require('bcrypt-nodejs');
 var Establecimiento = require('../models/establecimiento');
 var Usuario = require('../models/usuario');
 var Pais = require('../models/pais');
+var Provincia = require('../models/provincia');
 var jwt = require('../services/jwt');
 var mongoosePaginate = require('mongoose-pagination');
 var fs = require('fs');
@@ -134,8 +135,8 @@ function mostrarEstablecimiento(req,res){
         })
     }). */
     Establecimiento.findById(establecimientoId).
-    populate('propietario').
-    populate('gerente').
+    populate('representante').
+    populate('usuario').
     populate('pais').
     populate('provincia').exec(function(err,establecimiento){
         if(err) return res.status(500).send({error:err,message: 'Error en la petición.'});
