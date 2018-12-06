@@ -79,6 +79,49 @@ function registrarEstablecimiento(req,res){
     }
 }
 
+//Actualizar o editar los datos del establecimiento
+function actualizarEstablecimiento(req,res){
+    var usuarioId = req.user.sub;
+	var establecimientoId = req.params.id;
+    var params = req.body;
+    var establecimiento = new Establecimiento();
+	//borrar la propiedad password
+    //delete update.password;
+    Establecimiento.find({_id:establecimientoId,usuario:usuarioId}).exec((err,estab)=>{
+        if(err) return res.status(500).send({message: 'Error en la petición'});
+        if(!estab || estab.length <= 0) return res.status(500).send({message: 'No tienes permiso para actualizar los datos de esta cuenta.'});
+        //return res.status(200).send({establecimiento: establecimiento});
+        var update = {
+            razonSocial: params.razonSocial,
+            representante: params.representante,
+            pais: params.pais,
+            provincia: params.provincia,
+            direccion: {
+                ciudad: params.ciudad,
+                sector: params.sector,
+                callePrincipal: params.callePrincipal,
+                calleSecundaria: params.calleSecundaria
+            },
+            logo: params.logo,
+            sitioWeb: params.sitioWeb,
+            redesSociales: 
+                {
+                    facebook: params.facebook,
+                    instagram: params.instagram,
+                    twitter: params.twitter,
+                    youtube: params.youtube,
+                    snapchat: params.snapchat
+                },
+            atencion: {inicio:params.inicio,cierre:params.cierre}
+        };
+        Establecimiento.findByIdAndUpdate(establecimientoId,{$set:update},{new: true},(err,establecimientoActualizado)=>{
+            if(err) return res.status(500).send({error: err,message: 'Error en la petición al actualizar establecimiento'});
+            if(!establecimientoActualizado) return res.status(404).send({message: 'No se ha podido actualizar el usuario'});
+            return res.status(200).send({establecimientoActualizado: establecimientoActualizado});
+        });
+    });
+}
+
 //Mostrar el establecimiento
 function mostrarEstablecimiento(req,res){
     var establecimientoId = req.params.id;
@@ -144,5 +187,6 @@ module.exports = {
     registrarEstablecimiento,
     mostrarEstablecimiento,
     mostrarEstablecimientos,
-    mostrarMisEstablecimientos
+    mostrarMisEstablecimientos,
+    actualizarEstablecimiento
 }

@@ -9,7 +9,7 @@ var EstablecimientoSchema = new Schema({
     representante: {type: mongoose.Schema.Types.ObjectId, ref: 'Persona'},
     usuario: {type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'},
     pais: {type: mongoose.Schema.Types.ObjectId, ref: 'Pais'},
-    Provincia: {type: mongoose.Schema.Types.ObjectId, ref: 'Provincia'},
+    provincia: {type: mongoose.Schema.Types.ObjectId, ref: 'Provincia'},
     direccion: {
         ciudad: String,
         sector: String,
