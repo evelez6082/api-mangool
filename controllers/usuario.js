@@ -96,7 +96,7 @@ function loginUser(req, res){
         }else{
             return res.status(404).send({message: 'El usuario no se ha podido identificar, no existe'});
         }
-    })
+    }).populate('persona');
 }
 
 // Conseguir datos de un usuario

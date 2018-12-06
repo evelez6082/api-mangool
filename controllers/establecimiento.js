@@ -90,7 +90,7 @@ function actualizarEstablecimiento(req,res){
     //delete update.password;
     Establecimiento.find({_id:establecimientoId,usuario:usuarioId}).exec((err,estab)=>{
         if(err) return res.status(500).send({message: 'Error en la petición'});
-        if(!estab || estab.length <= 0) return res.status(500).send({message: 'No tienes permiso para actualizar los datos de esta cuenta.'});
+        if(!estab || estab.length <= 0) return res.status(403).send({message: 'No tienes permiso para actualizar los datos de esta cuenta.'});
         //return res.status(200).send({establecimiento: establecimiento});
         var update = {
             razonSocial: params.razonSocial,
