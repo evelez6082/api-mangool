@@ -6,7 +6,8 @@ var Schema = mongoose.Schema;
 
 var EstablecimientoSchema = new Schema({
     razonSocial: String,
-    representante: {type: mongoose.Schema.Types.ObjectId, ref: 'Persona'},
+    //representante: {type: mongoose.Schema.Types.ObjectId, ref: 'Persona'},
+    representante: String,
     usuario: {type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'},
     pais: {type: mongoose.Schema.Types.ObjectId, ref: 'Pais'},
     provincia: {type: mongoose.Schema.Types.ObjectId, ref: 'Provincia'},
