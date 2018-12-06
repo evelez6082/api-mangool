@@ -25,7 +25,7 @@ function saveUser(req,res){
             persona.nombre.apellidos = params.apellidos;
             persona.fechaNacimiento = params.fechaNacimiento;
             persona.sexo = params.sexo;
-            usuario.correo = params.correo;
+            usuario.correo = params.correo.toLowerCase();
             usuario.rol = 'UsuarioJugador';
             usuario.imagen = null;
 
