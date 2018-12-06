@@ -1,3 +1,6 @@
+PARA EXPORTAR 
+mongoexport.exe --collection provincias --db crud --out C:\mangool\api-mangool\db\provincias.json
+
 mongoimport.exe --db crud --collection pais --type csv --file C:\proyecto_ingenieria_interfaces\Countries\dist\countries.csv --headerline
 
 C:\Program Files\MongoDB\Server\3.6\bin>mongoimport.exe --db crud --collection pais --type csv --file C:\proyecto_ingenieria_interfaces\Countries\dist\countries.csv --headerline
