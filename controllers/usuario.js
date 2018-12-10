@@ -2,6 +2,7 @@
 var bcrypt = require('bcrypt-nodejs');
 var Usuario = require('../models/usuario');
 var Persona = require('../models/persona');
+var Establecimiento = require('../models/establecimiento');
 var jwt = require('../services/jwt');
 var mongoosePaginate = require('mongoose-pagination');
 var fs = require('fs');
@@ -78,6 +79,7 @@ function loginUser(req, res){
     Usuario.findOne({correo: correo}, (err,usuario)=>{
         if(err) return res.status(500).send({message: 'Error en la petición'});
         if(usuario){
+           
             bcrypt.compare(contrasena,usuario.contrasena,(err, check)=>{
                 if(check){
                     if(params.gettoken){
@@ -87,7 +89,18 @@ function loginUser(req, res){
                         //devolver datos del usuario sin cifrar en token
                         //devolver datos del usuario
                         usuario.contrasena = undefined;
-                        return res.status(200).send({usuario})
+                        if(usuario.rol == 'UsuarioCancha'){
+                            Establecimiento.find({usuario: usuario._id},(err,establecimiento)=>{
+                                if(err) return res.status(500).send({message: 'Error en la petición'});
+                                return res.status(200).send({
+                                    usuario: usuario,
+                                    establecimiento: establecimiento})
+                            })
+                        }else{
+                            return res.status(200).send({usuario})
+                        }
+                       
+
                     }
                 }else{
                     return res.status(404).send({message: 'El usuario no se ha podido identificar'});
