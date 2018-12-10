@@ -9,10 +9,10 @@ var EstablecimientoSchema = new Schema({
     //representante: {type: mongoose.Schema.Types.ObjectId, ref: 'Persona'},
     representante: String,
     usuario: {type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'},
-    pais: {type: mongoose.Schema.Types.ObjectId, ref: 'Pais'},
-    provincia: {type: mongoose.Schema.Types.ObjectId, ref: 'Provincia'},
+    pais: {type: String, default: 'Ecuador'},
+    provincia: {type: String, default: 'Manabí'},
+    ciudad: String,
     direccion: {
-        ciudad: String,
         sector: String,
         callePrincipal: String,
         calleSecundaria: String

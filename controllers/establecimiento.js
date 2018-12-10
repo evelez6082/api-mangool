@@ -18,7 +18,7 @@ function registrarEstablecimiento(req,res){
         establecimiento.representante = params.representante;
         establecimiento.pais = params.pais;
         establecimiento.provincia = params.provincia;
-        establecimiento.direccion.ciudad = params.ciudad;
+        establecimiento.ciudad = params.ciudad;
         establecimiento.direccion.sector = params.sector;
         establecimiento.direccion.callePrincipal = params.callePrincipal;
         establecimiento.direccion.calleSecundaria = params.calleSecundaria;
