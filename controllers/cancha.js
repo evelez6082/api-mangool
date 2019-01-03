@@ -1,5 +1,6 @@
 'use strict'
 var Cancha = require('../models/cancha');
+var Establecimiento = require('../models/establecimiento');
 var mongoosePaginate = require('mongoose-pagination');
 
 function guardarCancha(req,res){
@@ -38,6 +39,51 @@ function guardarCancha(req,res){
     }
 }
 
+function actualizarCancha(req,res){
+    var canchaId = req.params.id;
+    var usuarioId = req.user.sub;
+    var params = req.body;
+    var cancha = new Cancha();
+
+    Establecimiento.find({usuario:usuarioId},(err,establecimiento)=>{
+        if(err) return handleError(err);
+        if(establecimiento){
+            Cancha.find({_id:canchaId,establecimiento:establecimiento[0]._id},(err,cancha)=>{
+                if(err) return res.status(500).send({message: 'Error en la petición.', error: err})
+                if(!cancha || cancha.length <= 0) return res.status(200).send({message: 'La cancha no existe.'})
+                var update = {
+                    nombre: params.nombre,
+                    dimensiones: {
+                        largo: params.largo, 
+                        ancho: params.ancho
+                    },
+                    cesped: params.cesped,
+                    numeroJugadores: params.numeroJugadores,
+                    estado: params.estado,
+                    establecimiento: params.establecimiento,
+                    tarifaDefault: {
+                        diaSemana:{
+                            dia: params.diaDiaSemana, 
+                            noche: params.nocheDiaSemana
+                        },
+                        finSemana:{
+                            dia: params.diaFinSemana, 
+                            noche: params.nocheFinSemana
+                        }
+                    }
+                };
+                Cancha.findByIdAndUpdate(canchaId,{$set:update},{new:true},(err,canchaActualizada)=>{
+                    if(err) return res.status(500).send({error: err,message: 'Error en la petición al actualizar cancha'});
+                    if(!canchaActualizada) return res.status(404).send({message: 'No se ha podido actualizar la cancha'});
+                    return res.status(200).send({canchaActualizada});
+                });
+            })
+        }else{
+            return res.status(404).send({message: 'No existen datos (establecimiento)'})
+        }
+    });
+}
+
 function mostrarCancha(req,res){
     var canchaId = req.params.id;
     Cancha.findById(canchaId,(err,cancha)=>{
@@ -58,10 +104,10 @@ function mostrarCanchas(req,res){
     var itemsPerPage = 5;
     Cancha.find().
     populate({
-        path: 'establecimiento',
-        match: {
-            propietario: usuarioId 
-        }
+        path: 'establecimiento'
+        // match: {
+        //     propietario: usuarioId 
+        // }
     }).
     exec(function (err,canchas){
         if(err) return handleError(err);
@@ -85,5 +131,6 @@ async function establecimientoCancha(establecimientoId){
 module.exports = {
     guardarCancha,
     mostrarCancha,
-    mostrarCanchas
+    mostrarCanchas,
+    actualizarCancha
 }
