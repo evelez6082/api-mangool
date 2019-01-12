@@ -79,7 +79,6 @@ function loginUser(req, res){
     Usuario.findOne({correo: correo}, (err,usuario)=>{
         if(err) return res.status(500).send({message: 'Error en la petición'});
         if(usuario){
-           
             bcrypt.compare(contrasena,usuario.contrasena,(err, check)=>{
                 if(check){
                     if(params.gettoken){

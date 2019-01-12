@@ -16,8 +16,9 @@ function registrarEstablecimiento(req,res){
     if(params.razonSocial && params.correo && params.contrasena){
         establecimiento.razonSocial = params.razonSocial;
         establecimiento.representante = params.representante;
-        establecimiento.pais = params.pais;
-        establecimiento.provincia = params.provincia;
+        //establecimiento.pais = params.pais;
+        //establecimiento.provincia = params.provincia;
+        //establecimiento.provincia = params.canton;
         establecimiento.ciudad = params.ciudad;
         establecimiento.direccion.sector = params.sector;
         establecimiento.direccion.callePrincipal = params.callePrincipal;
@@ -95,8 +96,8 @@ function actualizarEstablecimiento(req,res){
         var update = {
             razonSocial: params.razonSocial,
             representante: params.representante,
-            pais: params.pais,
-            provincia: params.provincia,
+            //pais: params.pais,
+            //provincia: params.provincia,
             direccion: {
                 ciudad: params.ciudad,
                 sector: params.sector,

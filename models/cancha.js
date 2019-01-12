@@ -10,8 +10,9 @@ var CanchaSchema = new Schema({
     cesped: String,
     numeroJugadores: Number,
     estado: {type: Boolean, default: false},
-    creado:{type: Date,default: Date.now},
+    creado: {type: Date,default: Date.now},
     establecimiento: {type: mongoose.Schema.Types.ObjectId, ref: 'Establecimiento'},
+    tarifa: {type: mongoose.Schema.Types.ObjectId, ref: 'tarifa'},
     tarifaDefault: {
         diaSemana:{dia: String, noche: String},
         finSemana:{dia: String, noche: String}

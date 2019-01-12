@@ -12,7 +12,9 @@ var EstablecimientoSchema = new Schema({
     pais: String,
     provincia: String,
     canton: String,
+    parroquia:String,
     direccion: {
+        ciudad: String,
         sector: String,
         callePrincipal: String,
         calleSecundaria: String

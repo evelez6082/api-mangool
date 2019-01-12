@@ -4,10 +4,11 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-var TarifaSchema = new Schema({
-    cancha: {Type: mongoose.Schema.Types.ObjectId, ref: 'Cancha'},
+var TarifaSchema = Schema({
+    establecimiento: {type: mongoose.Schema.Types.ObjectId, ref: 'Establecimiento'},
     nombre: String,
-    estado: Boolean,
+    estado: {type: Boolean, default: true},
+    valor: String,
     dia:{
         lunes: Boolean,
         martes: Boolean,
@@ -18,32 +19,31 @@ var TarifaSchema = new Schema({
         domingo: Boolean
     },
     hora: {
-        "01H00": Boolean,
-        "02H00": Boolean,
-        "03H00": Boolean,
-        "03H00": Boolean,
-        "04H00": Boolean,
-        "05H00": Boolean,
-        "06H00": Boolean,
-        "07H00": Boolean,
-        "08H00": Boolean,
-        "09H00": Boolean,
-        "10H00": Boolean,
-        "11H00": Boolean,
-        "12H00": Boolean,
-        "13H00": Boolean,
-        "14H00": Boolean,
-        "15H00": Boolean,
-        "16H00": Boolean,
-        "17H00": Boolean,
-        "18H00": Boolean,
-        "19H00": Boolean,
-        "20H00": Boolean,
-        "21H00": Boolean,
-        "22H00": Boolean,
-        "23H00": Boolean,
-        "00H00": Boolean
+        una: Boolean,
+        dos: Boolean,
+        tres: Boolean,
+        cuatro: Boolean,
+        cinco: Boolean,
+        seis: Boolean,
+        siete: Boolean,
+        ocho: Boolean,
+        nueve: Boolean,
+        diez: Boolean,
+        once: Boolean,
+        doce: Boolean,
+        trece: Boolean,
+        catorce: Boolean,
+        quince: Boolean,
+        diezyseis: Boolean,
+        diezysiete: Boolean,
+        diezyocho: Boolean,
+        diezynueve: Boolean,
+        veinte: Boolean,
+        veinteyuno: Boolean,
+        veinteydos: Boolean,
+        veinteytres: Boolean,
+        cero: Boolean
     }
-});
+})
 
-module.exports = mongoose.Model('Tarifa', TarifaSchema);
+module.exports = mongoose.model('Tarifa', TarifaSchema);
