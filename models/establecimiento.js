@@ -5,20 +5,19 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var EstablecimientoSchema = new Schema({
-    razonSocial: String,
-    //representante: {type: mongoose.Schema.Types.ObjectId, ref: 'Persona'},
-    representante: String,
-    usuario: {type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'},
     pais: String,
     provincia: String,
     canton: String,
     parroquia:String,
     direccion: {
-        ciudad: String,
         sector: String,
         callePrincipal: String,
         calleSecundaria: String
     },
+    razonSocial: String,
+    representante: String,
+    correoRepresentante: String,
+    telefonoRepresentante: String,
     logo: String,
     sitioWeb: String,
     redesSociales: 
@@ -30,7 +29,8 @@ var EstablecimientoSchema = new Schema({
             snapchat: String
         },
     atencion: {inicio:String,cierre:String},
-    creado:{type: Date,default: Date.now}
+    creado:{type: Date,default: Date.now},
+    usuario: {type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'}
 })
 
 module.exports = mongoose.model('Establecimiento',EstablecimientoSchema);

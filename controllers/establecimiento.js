@@ -13,26 +13,28 @@ var path = require('path');
 function registrarEstablecimiento(req,res){
     var establecimiento = new Establecimiento();
     var params = req.body;
-    if(params.razonSocial && params.correo && params.contrasena){
-        establecimiento.razonSocial = params.razonSocial;
-        establecimiento.representante = params.representante;
-        //establecimiento.pais = params.pais;
-        //establecimiento.provincia = params.provincia;
-        //establecimiento.provincia = params.canton;
-        establecimiento.ciudad = params.ciudad;
+    if(params.razonSocial && params.usuario && params.contrasena){
+        // establecimiento.pais = params.pais;
+        establecimiento.provincia = params.provincia;
+        establecimiento.canton = params.canton;
+        establecimiento.parroquia = params.parroquia;
         establecimiento.direccion.sector = params.sector;
         establecimiento.direccion.callePrincipal = params.callePrincipal;
         establecimiento.direccion.calleSecundaria = params.calleSecundaria;
+        establecimiento.razonSocial = params.razonSocial;
+        establecimiento.representante = params.nombreRepresentante;
+        establecimiento.correoRepresentante = params.correoRepresentante;
+        establecimiento.telefonoRepresentante = params.telefonoRepresentante;
         establecimiento.logo = null;
-        establecimiento.sitioWeb = params.sitioWeb;
-        establecimiento.redesSociales.facebook = params.facebook;
-        establecimiento.redesSociales.instagram = params.instagram;
-        establecimiento.redesSociales.twitter = params.twitter;
-        establecimiento.redesSociales.youtube = params.youtube;
-        establecimiento.redesSociales.snapchat = params.snapchat;
-        establecimiento.atencion.inicio = params.inicio;
-        establecimiento.atencion.cierre = params.cierre;
-        Usuario.find({correo: params.correo}).exec((err,usuario)=>{
+        // establecimiento.sitioWeb = params.sitioWeb;
+        // establecimiento.redesSociales.facebook = params.facebook;
+        // establecimiento.redesSociales.instagram = params.instagram;
+        // establecimiento.redesSociales.twitter = params.twitter;
+        // establecimiento.redesSociales.youtube = params.youtube;
+        // establecimiento.redesSociales.snapchat = params.snapchat;
+        // establecimiento.atencion.inicio = params.inicio;
+        // establecimiento.atencion.cierre = params.cierre;
+        Usuario.find({correo: params.usuario}).exec((err,usuario)=>{
             if(err) return res.status(500).send({message: 'Error en la petición de usuario',error:err});
             if(usuario && usuario.length >= 1){
                 return res.status(200).send({message: 'El correo ingresado ya existe registrado en el sistema.'});
@@ -43,7 +45,7 @@ function registrarEstablecimiento(req,res){
                         return res.status(200).send({message: 'La razón social ingresada ya existe. Por favor ingrese otra.'});
                     }else{
                         usuario = new Usuario();
-                        usuario.correo = params.correo;
+                        usuario.correo = params.usuario;
                         usuario.rol = 'UsuarioCancha';
                         usuario.imagen = null;
                         //Cifrar y guardar los datos
