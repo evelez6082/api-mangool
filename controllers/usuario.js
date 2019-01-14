@@ -83,7 +83,14 @@ function loginUser(req, res){
                 if(check){
                     if(params.gettoken){
                         //generar y devolver el token
-                        return res.status(200).send({token:jwt.createToken(usuario)});
+                        if (usuario.rol == 'UsuarioCancha') {
+                            Establecimiento.find({usuario: usuario._id},(err,est)=>{
+                                if(err) return res.status(500).send({message: 'Error en la petición'});
+                                return res.status(200).send({token:jwt.createToken2(usuario,est)});
+                            })
+                        }else{
+                            return res.status(200).send({token:jwt.createToken(usuario)});
+                        }
                     }else{
                         //devolver datos del usuario sin cifrar en token
                         //devolver datos del usuario

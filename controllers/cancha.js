@@ -124,6 +124,39 @@ function mostrarCanchas(req,res){
     })*/
 }
 
+function mostrarMisCanchas(req,res){
+    var usuarioId = req.user.sub;
+    var page = 1;
+    if(req.params.page){
+        page = req.params.page;
+    }
+    var itemsPerPage = 5;
+    Establecimiento.find({usuario: usuarioId},(err,establecimiento)=>{
+        if(err) return res.status(500).send({message: 'Error en la petición establecimiento'});
+        if(!establecimiento || establecimiento.length <= 0) return res.status(200).send({message: 'no existe registro'});
+        Cancha.find({establecimiento: establecimiento[0]._id},(err,canchas)=>{
+            if(err) return res.status(500).send({message: 'Error en la petición'});
+            if(!canchas || canchas.length <= 0) return res.status(404).send({message: 'No existen canchas registradas'});
+            return res.status(200).send({canchas: canchas})
+        })
+    })
+
+    // Cancha.find({establecimiento:establecimientoId}).
+    // exec(function (err,canchas){
+    //     if(err) return handleError(err);
+    //     return res.status(200).send({canchas: canchas})
+    // })
+    /*Cancha.find().sort('_id').paginate(page,itemsPerPage,(err,canchas,total)=>{
+        if(err) return res.status(500).send({message: 'Error en la petición'});
+        if(!canchas) return res.status(404).send({message: 'No existen canchas registradas'});
+        return res.status(200).send({
+            canchas,
+            total,
+            page: Math.ceil(total/itemsPerPage)
+        })
+    })*/
+}
+
 async function establecimientoCancha(establecimientoId){
     
 }
@@ -132,5 +165,6 @@ module.exports = {
     guardarCancha,
     mostrarCancha,
     mostrarCanchas,
-    actualizarCancha
+    actualizarCancha,
+    mostrarMisCanchas
 }
