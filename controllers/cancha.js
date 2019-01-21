@@ -96,32 +96,27 @@ function mostrarCancha(req,res){
 }
 
 function mostrarCanchas(req,res){
-    var usuarioId = req.user.sub;
     var page = 1;
     if(req.params.page){
         page = req.params.page;
     }
     var itemsPerPage = 5;
-    Cancha.find().
+    Cancha.find().sort('_id').
     populate({
         path: 'establecimiento'
         // match: {
         //     propietario: usuarioId 
         // }
     }).
-    exec(function (err,canchas){
+    paginate(page,itemsPerPage,(err,canchas,total)=>{
         if(err) return handleError(err);
-        return res.status(200).send({canchas: canchas})
-    })
-    /*Cancha.find().sort('_id').paginate(page,itemsPerPage,(err,canchas,total)=>{
-        if(err) return res.status(500).send({message: 'Error en la petición'});
         if(!canchas) return res.status(404).send({message: 'No existen canchas registradas'});
         return res.status(200).send({
             canchas,
             total,
-            page: Math.ceil(total/itemsPerPage)
+            pages: Math.ceil(total/itemsPerPage)
         })
-    })*/
+    })
 }
 
 function mostrarMisCanchas(req,res){
