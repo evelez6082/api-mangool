@@ -15,10 +15,7 @@ function guardarCancha(req,res){
         cancha.numeroJugadores = params.numeroJugadores;
         cancha.estado = params.estado;
         cancha.establecimiento = params.establecimiento;
-        cancha.tarifaDefault.diaSemana.dia = params.diaDiaSemana;
-        cancha.tarifaDefault.diaSemana.noche = params.nocheDiaSemana;
-        cancha.tarifaDefault.finSemana.dia = params.diaFinSemana;
-        cancha.tarifaDefault.finSemana.noche = params.nocheFinSemana;
+        cancha.misCanchas = params.misCanchas;
         Cancha.find({nombre: cancha.nombre.toUpperCase(),establecimiento: cancha.establecimiento}).exec((err,canchas)=>{
             if(err) return res.status(500).send({message: 'Error en la petición de cancha.'})
             if(canchas && canchas.length >= 1 ){

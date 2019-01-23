@@ -12,11 +12,9 @@ var CanchaSchema = new Schema({
     estado: {type: Boolean, default: false},
     creado: {type: Date,default: Date.now},
     establecimiento: {type: mongoose.Schema.Types.ObjectId, ref: 'Establecimiento'},
-    tarifa: {type: mongoose.Schema.Types.ObjectId, ref: 'tarifa'},
-    tarifaDefault: {
-        diaSemana:{dia: String, noche: String},
-        finSemana:{dia: String, noche: String}
-    }
+    misTarifas:[
+        {type: mongoose.Schema.Types.ObjectId, ref: 'tarifa'}
+    ]
 });
 
 module.exports = mongoose.model('Cancha',CanchaSchema);
