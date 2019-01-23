@@ -13,7 +13,7 @@ var CanchaSchema = new Schema({
     creado: {type: Date,default: Date.now},
     establecimiento: {type: mongoose.Schema.Types.ObjectId, ref: 'Establecimiento'},
     misTarifas:[
-        {type: mongoose.Schema.Types.ObjectId, ref: 'tarifa'}
+       {type: mongoose.Schema.Types.ObjectId, ref: 'tarifa'}
     ]
 });
 
