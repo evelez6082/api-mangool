@@ -93,42 +93,36 @@ function mostrarCancha(req,res){
 }
 
 function mostrarCanchas(req,res){
-    
-    //var canchaId = req.params.sub;
-    Cancha.find().sort('_id').
-    populate({
-        path:'establecimiento'
-    }).exec((err,canchas)=>{
-        if(err) return handleError(err);
-         if(!canchas) return res.status(404).send({message: 'No existen canchas registradas'});
-         return res.status(200).send({
-             canchas
-    });
-    
-   
-    });
-    // var page = 1;
-    // if(req.params.page){
-    //   page = req.params.page;
-    // }
-    //  var itemsPerPage = 5;
     // Cancha.find().sort('_id').
     // populate({
-    //     path: 'establecimiento'
-    //     // match: {
-    //     //     propietario: usuarioId 
-    //     // }
-    // }).
-    // // paginate(page,itemsPerPage,(err,canchas,total)=>{
-    
+    //     path:'establecimiento'
+    // }).exec((err,canchas)=>{
     //     if(err) return handleError(err);
-    //     if(!canchas) return res.status(404).send({message: 'No existen canchas registradas'});
-    //     return res.status(200).send({
-    //         canchas,
-    //         total,
-    //         pages: Math.ceil(total/itemsPerPage)
-    //     })
-    // })
+    //      if(!canchas) return res.status(404).send({message: 'No existen canchas registradas'});
+    //      return res.status(200).send({
+    //          canchas
+    //     });
+    // });
+    console.log(req.params);
+    console.log(req.body);
+    var page = 1;
+    if(req.body.draw){
+      page = req.body.draw;
+    }
+    var itemsPerPage = 10;
+    Cancha.find().sort('_id').
+    populate({
+        path: 'establecimiento'
+    }).
+    paginate(page,itemsPerPage,(err,canchas,total)=>{
+        if(err) return handleError(err);
+        if(!canchas) return res.status(404).send({message: 'No existen canchas registradas'});
+        return res.status(200).send({
+            canchas,
+            total,
+            pages: Math.ceil(total/itemsPerPage)
+        })
+    })
 }
 
 function mostrarMisCanchas(req,res){
