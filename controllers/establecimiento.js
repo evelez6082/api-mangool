@@ -187,10 +187,47 @@ function mostrarMisEstablecimientos(req, res){
     });
 } 
 
+//Mostrar establecimientos por ciudad
+function mostrarEstablecimientosByUbicacion(req, res){
+    var params = req.body;
+    var buscarPor = 'provincia';
+    var buscarPorValue = 0;
+    if (params.parroquia || params.canton || params.provincia) {
+        if (params.parroquia){
+            buscarPor = 'parroquia';
+            buscarPorValue = params.parroquia;
+            Establecimiento.find({parroquia:buscarPorValue},(err,establecimientos)=>{
+            if(err) return res.status(500).send({error: err,message: 'Error en la petición.'});
+            if(!establecimientos || establecimientos.length <= 0) return res.status(404).send({message: 'No existen establecimientos registrados en '+buscarPor+' '+buscarPorValue});
+            return res.status(200).send({establecimientos})
+        }).sort('_id');
+        }else if (params.canton) {
+            buscarPor = 'canton';
+            buscarPorValue = params.canton;
+            Establecimiento.find({canton:buscarPorValue},(err,establecimientos)=>{
+            if(err) return res.status(500).send({error: err,message: 'Error en la petición.'});
+            if(!establecimientos || establecimientos.length <= 0) return res.status(404).send({message: 'No existen establecimientos registrados en '+buscarPor+' '+buscarPorValue});
+            return res.status(200).send({establecimientos})
+        }).sort('_id');
+        }else if (params.provincia) {
+            buscarPor = 'provincia';
+            buscarPorValue = params.provincia;
+            Establecimiento.find({provincia:buscarPorValue},(err,establecimientos)=>{
+            if(err) return res.status(500).send({error: err,message: 'Error en la petición.'});
+            if(!establecimientos || establecimientos.length <= 0) return res.status(404).send({message: 'No existen establecimientos registrados en '+buscarPor+' '+buscarPorValue});
+            return res.status(200).send({establecimientos})
+        }).sort('_id');
+        }
+    }else{
+        return res.status(404).send({message: 'Envie datos de busqueda.'});
+    }
+} 
+
 module.exports = {
     registrarEstablecimiento,
     mostrarEstablecimiento,
     mostrarEstablecimientos,
     mostrarMisEstablecimientos,
-    actualizarEstablecimiento
+    actualizarEstablecimiento,
+    mostrarEstablecimientosByUbicacion
 }

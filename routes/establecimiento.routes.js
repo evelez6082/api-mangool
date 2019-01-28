@@ -9,6 +9,7 @@ api.get('/establecimiento/:id',md_auth.ensureAuth,EstablecimientoController.most
 api.get('/establecimientos/:pagina?',EstablecimientoController.mostrarEstablecimientos);
 api.get('/mis-establecimientos/:pagina?',md_auth.ensureAuth,EstablecimientoController.mostrarMisEstablecimientos);
 api.post('/registrar-establecimiento/',EstablecimientoController.registrarEstablecimiento);
+api.post('/establecimientos',EstablecimientoController.mostrarEstablecimientosByUbicacion);
 api.put('/actualizar-establecimiento/:id',md_auth.ensureAuth,EstablecimientoController.actualizarEstablecimiento);
 
 module.exports = api;

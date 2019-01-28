@@ -7,6 +7,7 @@ var Schema = mongoose.Schema;
 var ItemSchema = Schema({
     cancha: {type: mongoose.Schema.Types.ObjectId, ref: 'Cancha'},
     tarifa: {type: mongoose.Schema.Types.ObjectId, ref: 'Tarifa'},
+    cliente: {type: mongoose.Schema.Types.ObjectId, ref: 'Usuario'},
     fecha:  {type: Date,default: Date.now},
     estado: {type: Boolean, default: true},
     hora: {
