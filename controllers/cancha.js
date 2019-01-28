@@ -96,18 +96,6 @@ function mostrarCancha(req,res){
 }
 
 function mostrarCanchas(req,res){
-    // Cancha.find().sort('_id').
-    // populate({
-    //     path:'establecimiento'
-    // }).exec((err,canchas)=>{
-    //     if(err) return handleError(err);
-    //      if(!canchas) return res.status(404).send({message: 'No existen canchas registradas'});
-    //      return res.status(200).send({
-    //          canchas
-    //     });
-    // });
-    console.log(req.params);
-    console.log(req.body);
     var page = 1;
     if(req.body.draw){
       page = req.body.draw;
@@ -144,13 +132,16 @@ function mostrarMisCanchas(req,res){
             return res.status(200).send({canchas: canchas})
         })
     })
+}
 
-    // Cancha.find({establecimiento:establecimientoId}).
-    // exec(function (err,canchas){
-    //     if(err) return handleError(err);
-    //     return res.status(200).send({canchas: canchas})
-    // })
-    /*Cancha.find().sort('_id').paginate(page,itemsPerPage,(err,canchas,total)=>{
+function mostrarCanchasByEstablecimiento(req,res){
+    var establecimientoId = req.params.establecimiento;
+    var page = 1;
+    if(req.params.page){
+        page = req.params.page;
+    }
+    var itemsPerPage = 5;
+    Cancha.find({establecimiento:establecimientoId}).sort('_id').paginate(page,itemsPerPage,(err,canchas,total)=>{
         if(err) return res.status(500).send({message: 'Error en la petición'});
         if(!canchas) return res.status(404).send({message: 'No existen canchas registradas'});
         return res.status(200).send({
@@ -158,11 +149,7 @@ function mostrarMisCanchas(req,res){
             total,
             page: Math.ceil(total/itemsPerPage)
         })
-    })*/
-}
-
-async function establecimientoCancha(establecimientoId){
-    
+    })
 }
 
 module.exports = {
@@ -170,5 +157,6 @@ module.exports = {
     mostrarCancha,
     mostrarCanchas,
     actualizarCancha,
-    mostrarMisCanchas
+    mostrarMisCanchas,
+    mostrarCanchasByEstablecimiento
 }
