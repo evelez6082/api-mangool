@@ -12,6 +12,7 @@ const establecimiento_routes = require('./routes/establecimiento.routes');
 const cancha_routes = require('./routes/cancha.routes');
 const otros_routes = require('./routes/otro.routes');
 const tarifa_routes = require('./routes/tarifa.routes');
+const alquiler_routes = require('./routes/alquiler.routes');
 
 const {mongoose} = require('./database');
 // configuracion servidor
@@ -31,6 +32,7 @@ app.use('/api',establecimiento_routes);
 app.use('/api',cancha_routes);
 app.use('/api',otros_routes);
 app.use('/api',tarifa_routes);
+app.use('/api',alquiler_routes);
 
 //empezando el servidor
 app.listen(app.get('port'), ()=>{
