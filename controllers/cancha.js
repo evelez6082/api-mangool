@@ -7,36 +7,36 @@ var moment = require('moment');
 function guardarCancha(req,res){
 
     res.status(202).send({message: moment().day(10)});
-    // var cancha = new Cancha();
-    // var params = req.body;
+    var cancha = new Cancha();
+    var params = req.body;
 
-    // if(params.nombre && params.largo && params.ancho && params.cesped && params.numeroJugadores && params.establecimiento){
-    //     cancha.nombre = params.nombre.toUpperCase();
-    //     cancha.dimensiones.largo = params.largo;
-    //     cancha.dimensiones.ancho = params.ancho;
-    //     cancha.cesped = params.cesped;
-    //     cancha.numeroJugadores = params.numeroJugadores;
-    //     cancha.estado = params.estado;
-    //     cancha.establecimiento = params.establecimiento;
-    //     cancha.misTarifas = params.misTarifas;
-    //     Cancha.find({nombre: cancha.nombre.toUpperCase(),establecimiento: cancha.establecimiento}).exec((err,canchas)=>{
-    //         if(err) return res.status(500).send({message: 'Error en la petición de cancha.'})
-    //         if(canchas && canchas.length >= 1 ){
-    //             return res.status(200).send({message: 'La cancha que intenta registrar ya existe.'})
-    //         }else{
-    //             cancha.save((err,canchaGuardada)=>{
-    //                 if(err) return res.status(500).send({message: 'Error al guardar cancha.',error:err})
-    //                 if(canchaGuardada){
-    //                     res.status(200).send({canchaGuardada})
-    //                 }else{
-    //                     res.status(404).send({message: 'No se ha registrado la cancha.'})
-    //                 }
-    //             })
-    //         }
-    //     })
-    // }else{
-    //     res.status(200).send({message: 'Rellena o envia todos los campos necesarios.'})
-    // }
+    if(params.nombre && params.largo && params.ancho && params.cesped && params.numeroJugadores && params.establecimiento){
+        cancha.nombre = params.nombre.toUpperCase();
+        cancha.dimensiones.largo = params.largo;
+        cancha.dimensiones.ancho = params.ancho;
+        cancha.cesped = params.cesped;
+        cancha.numeroJugadores = params.numeroJugadores;
+        cancha.estado = params.estado;
+        cancha.establecimiento = params.establecimiento;
+        cancha.misTarifas = params.misTarifas;
+        Cancha.find({nombre: cancha.nombre.toUpperCase(),establecimiento: cancha.establecimiento}).exec((err,canchas)=>{
+            if(err) return res.status(500).send({message: 'Error en la petición de cancha.'})
+            if(canchas && canchas.length >= 1 ){
+                return res.status(200).send({message: 'La cancha que intenta registrar ya existe.'})
+            }else{
+                cancha.save((err,canchaGuardada)=>{
+                    if(err) return res.status(500).send({message: 'Error al guardar cancha.',error:err})
+                    if(canchaGuardada){
+                        res.status(200).send({canchaGuardada})
+                    }else{
+                        res.status(404).send({message: 'No se ha registrado la cancha.'})
+                    }
+                })
+            }
+        })
+    }else{
+        res.status(200).send({message: 'Rellena o envia todos los campos necesarios.'})
+    }
 }
 
 function actualizarCancha(req,res){
