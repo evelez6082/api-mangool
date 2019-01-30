@@ -6,7 +6,6 @@ var moment = require('moment');
 
 function guardarCancha(req,res){
 
-    res.status(202).send({message: moment().day(10)});
     var cancha = new Cancha();
     var params = req.body;
 
