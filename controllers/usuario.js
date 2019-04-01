@@ -8,12 +8,6 @@ var mongoosePaginate = require('mongoose-pagination');
 var fs = require('fs');
 var path = require('path');
 
-function home(req, res){
-    res.status(200).send({
-        message: 'Hola mundo'
-    });
-}
-
 //registro
 function saveUser(req,res){
     var usuario = new Usuario();
@@ -77,7 +71,7 @@ function loginUser(req, res){
     var contrasena = params.contrasena;
 
     Usuario.findOne({correo: correo}, (err,usuario)=>{
-        if(err) return res.status(500).send({message: 'Error en la petición'});
+        if(err) return res.status(500).send({status:false,message: 'Error en la petición'});
         if(usuario){
             bcrypt.compare(contrasena,usuario.contrasena,(err, check)=>{
                 if(check){
@@ -224,8 +218,6 @@ function prueba(req,res){
 }
 
 module.exports = {
-    prueba,
-    home,
     saveUser,
     loginUser,
     getUser,
